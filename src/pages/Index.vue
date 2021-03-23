@@ -1,16 +1,15 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
-  </q-page>
+  <div>
+    <landing></landing>
+  </div>
 </template>
 
 <script>
+import Landing from '../components/Landing';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  components: { Landing },
   name: 'PageIndex'
 })
 </script>
