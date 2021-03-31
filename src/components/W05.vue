@@ -158,10 +158,6 @@ export default {
 body {
   margin: 0;
 }
-canvas {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-}
+
 
 </style>
