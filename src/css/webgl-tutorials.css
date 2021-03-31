@@ -16,9 +16,10 @@ body {
 canvas {
   background-color: #fff;
   border: 1px solid black;
+  margin: auto;
   /* NOTE: This size is changed if in iframe - see below '.iframe canvas' */
-  width: 85vw;
-  height: 95vh;
+  width: 84vw;
+  height: 94vh;
   display: block;
 }
 
