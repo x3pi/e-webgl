@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import W03 from '../components/W03';
-import { defineComponent } from 'vue';
+import W03 from '../components/W03'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { W03 },

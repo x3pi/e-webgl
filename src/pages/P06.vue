@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import W06 from '../components/W06';
-import { defineComponent } from 'vue';
+import W06 from '../components/W06'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { W06 },

@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import Landing from '../components/Landing';
-import { defineComponent } from 'vue';
+import Landing from '../components/Landing'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { Landing },

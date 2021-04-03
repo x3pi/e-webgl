@@ -74,7 +74,7 @@ const linksList = [
     title: 'Triangle',
     link: '/p06'
   },
-];
+]
 
 import { defineComponent, ref } from 'vue'
 

@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import W04 from '../components/W04';
-import { defineComponent } from 'vue';
+import W04 from '../components/W04'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { W04 },
