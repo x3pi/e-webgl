@@ -52,27 +52,27 @@ import EssentialLink from 'components/EssentialLink.vue'
 const linksList = [
   {
     title: 'Triangle',
-    link: '/p01'
+    link: '#/p01'
   },
    {
     title: 'Triangle',
-    link: '/p02'
+    link: '#/p02'
   },
   {
     title: 'Triangle',
-    link: '/p03'
+    link: '#/p03'
   },
   {
     title: 'Triangle',
-    link: '/p04'
+    link: '#/p04'
   },
   {
     title: 'Triangle',
-    link: '/p05'
+    link: '#/p05'
   },
   {
     title: 'Triangle',
-    link: '/p06'
+    link: '#/p06'
   },
 ]
 

@@ -47,7 +47,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       publicPath: "e-webgl",
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
       distDir: "docs", // Thư mục lưu trữ khi build
 
       // transpile: false,
