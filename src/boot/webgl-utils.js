@@ -30,22 +30,21 @@
  */
 
 /* global define */
-(function(root, factory) { 
+;(function (root, factory) {
   // eslint-disable-line
   if (typeof define === 'function' && define.amd) {
     window.webglUtils = factory.call(root)
     // AMD. Register as an anonymous module.
-    define([], function() {
+    define([], function () {
       return factory.call(root)
     })
   } else {
     // Browser globals
-    console.log("root3")
+    console.log('root3')
     root.webglUtils = factory.call(root)
   }
-}
-(this, function() {
-  "use strict"
+})(this, function () {
+  'use strict'
   const topWindow = this
 
   /** @module webgl-utils */
@@ -56,8 +55,16 @@
   }
 
   if (!isInIFrame()) {
-    console.log("%c%s", 'color:blue;font-weight:bold;', 'for more about webgl-utils.js see:');  // eslint-disable-line
-    console.log("%c%s", 'color:blue;font-weight:bold;', 'http://webgl2fundamentals.org/webgl/lessons/webgl-boilerplate.html');  // eslint-disable-line
+    console.log(
+      '%c%s',
+      'color:blue;font-weight:bold;',
+      'for more about webgl-utils.js see:'
+    ) // eslint-disable-line
+    console.log(
+      '%c%s',
+      'color:blue;font-weight:bold;',
+      'http://webgl2fundamentals.org/webgl/lessons/webgl-boilerplate.html'
+    ) // eslint-disable-line
   }
 
   /**
@@ -78,19 +85,23 @@
   function addLineNumbersWithError(src, log = '') {
     // Note: Error message formats are not defined by any spec so this may or may not work.
     const matches = [...log.matchAll(errorRE)]
-    const lineNoToErrorMap = new Map(matches.map((m, ndx) => {
-      const lineNo = parseInt(m[1])
-      const next = matches[ndx + 1]
-      const end = next ? next.index : log.length
-      const msg = log.substring(m.index, end)
-      return [lineNo - 1, msg]
-    }))
-    return src.split('\n').map((line, lineNo) => {
-      const err = lineNoToErrorMap.get(lineNo)
-      return `${lineNo + 1}: ${line}${err ? `\n\n^^^ ${err}` : ''}`
-    }).join('\n')
+    const lineNoToErrorMap = new Map(
+      matches.map((m, ndx) => {
+        const lineNo = parseInt(m[1])
+        const next = matches[ndx + 1]
+        const end = next ? next.index : log.length
+        const msg = log.substring(m.index, end)
+        return [lineNo - 1, msg]
+      })
+    )
+    return src
+      .split('\n')
+      .map((line, lineNo) => {
+        const err = lineNoToErrorMap.get(lineNo)
+        return `${lineNo + 1}: ${line}${err ? `\n\n^^^ ${err}` : ''}`
+      })
+      .join('\n')
   }
-
 
   /**
    * Error Callback
@@ -123,7 +134,12 @@
     if (!compiled) {
       // Something went wrong during compilation; get the error
       const lastError = gl.getShaderInfoLog(shader)
-      errFn(`Error compiling shader: ${lastError}\n${addLineNumbersWithError(shaderSource, lastError)}`)
+      errFn(
+        `Error compiling shader: ${lastError}\n${addLineNumbersWithError(
+          shaderSource,
+          lastError
+        )}`
+      )
       gl.deleteShader(shader)
       return null
     }
@@ -142,18 +158,24 @@
    * @memberOf module:webgl-utils
    */
   function createProgram(
-      gl, shaders, opt_attribs, opt_locations, opt_errorCallback) {
+    gl,
+    shaders,
+    opt_attribs,
+    opt_locations,
+    opt_errorCallback
+  ) {
     const errFn = opt_errorCallback || error
     const program = gl.createProgram()
-    shaders.forEach(function(shader) {
+    shaders.forEach(function (shader) {
       gl.attachShader(program, shader)
     })
     if (opt_attribs) {
-      opt_attribs.forEach(function(attrib, ndx) {
+      opt_attribs.forEach(function (attrib, ndx) {
         gl.bindAttribLocation(
-            program,
-            opt_locations ? opt_locations[ndx] : ndx,
-            attrib)
+          program,
+          opt_locations ? opt_locations[ndx] : ndx,
+          attrib
+        )
       })
     }
     gl.linkProgram(program)
@@ -161,18 +183,20 @@
     // Check the link status
     const linked = gl.getProgramParameter(program, gl.LINK_STATUS)
     if (!linked) {
-        // something went wrong with the link
-        const lastError = gl.getProgramInfoLog(program)
-        errFn(`Error in program linking: ${lastError}\n${
-          shaders.map(shader => {
+      // something went wrong with the link
+      const lastError = gl.getProgramInfoLog(program)
+      errFn(
+        `Error in program linking: ${lastError}\n${shaders
+          .map((shader) => {
             const src = addLineNumbersWithError(gl.getShaderSource(shader))
             const type = gl.getShaderParameter(shader, gl.SHADER_TYPE)
             return `${glEnumToString(gl, type)}:\n${src}`
-          }).join('\n')
-        }`)
+          })
+          .join('\n')}`
+      )
 
-        gl.deleteProgram(program)
-        return null
+      gl.deleteProgram(program)
+      return null
     }
     return program
   }
@@ -187,34 +211,41 @@
    * @return {WebGLShader} The created shader.
    */
   function createShaderFromScript(
-      gl, scriptId, opt_shaderType, opt_errorCallback) {
-    let shaderSource = ""
+    gl,
+    scriptId,
+    opt_shaderType,
+    opt_errorCallback
+  ) {
+    let shaderSource = ''
     let shaderType
     const shaderScript = document.getElementById(scriptId)
     if (!shaderScript) {
-      throw ("*** Error: unknown script element" + scriptId)
+      throw '*** Error: unknown script element' + scriptId
     }
     shaderSource = shaderScript.text
 
     if (!opt_shaderType) {
-      if (shaderScript.type === "x-shader/x-vertex") {
+      if (shaderScript.type === 'x-shader/x-vertex') {
         shaderType = gl.VERTEX_SHADER
-      } else if (shaderScript.type === "x-shader/x-fragment") {
+      } else if (shaderScript.type === 'x-shader/x-fragment') {
         shaderType = gl.FRAGMENT_SHADER
-      } else if (shaderType !== gl.VERTEX_SHADER && shaderType !== gl.FRAGMENT_SHADER) {
-        throw ("*** Error: unknown shader type")
+      } else if (
+        shaderType !== gl.VERTEX_SHADER &&
+        shaderType !== gl.FRAGMENT_SHADER
+      ) {
+        throw '*** Error: unknown shader type'
       }
     }
 
     return loadShader(
-        gl, shaderSource, opt_shaderType ? opt_shaderType : shaderType,
-        opt_errorCallback)
+      gl,
+      shaderSource,
+      opt_shaderType ? opt_shaderType : shaderType,
+      opt_errorCallback
+    )
   }
 
-  const defaultShaderType = [
-    "VERTEX_SHADER",
-    "FRAGMENT_SHADER",
-  ]
+  const defaultShaderType = ['VERTEX_SHADER', 'FRAGMENT_SHADER']
 
   /**
    * Creates a program from 2 script tags.
@@ -232,13 +263,30 @@
    * @memberOf module:webgl-utils
    */
   function createProgramFromScripts(
-      gl, shaderScriptIds, opt_attribs, opt_locations, opt_errorCallback) {
+    gl,
+    shaderScriptIds,
+    opt_attribs,
+    opt_locations,
+    opt_errorCallback
+  ) {
     const shaders = []
     for (let ii = 0; ii < shaderScriptIds.length; ++ii) {
-      shaders.push(createShaderFromScript(
-          gl, shaderScriptIds[ii], gl[defaultShaderType[ii]], opt_errorCallback))
+      shaders.push(
+        createShaderFromScript(
+          gl,
+          shaderScriptIds[ii],
+          gl[defaultShaderType[ii]],
+          opt_errorCallback
+        )
+      )
     }
-    return createProgram(gl, shaders, opt_attribs, opt_locations, opt_errorCallback)
+    return createProgram(
+      gl,
+      shaders,
+      opt_attribs,
+      opt_locations,
+      opt_errorCallback
+    )
   }
 
   /**
@@ -257,13 +305,30 @@
    * @memberOf module:webgl-utils
    */
   function createProgramFromSources(
-      gl, shaderSources, opt_attribs, opt_locations, opt_errorCallback) {
+    gl,
+    shaderSources,
+    opt_attribs,
+    opt_locations,
+    opt_errorCallback
+  ) {
     const shaders = []
     for (let ii = 0; ii < shaderSources.length; ++ii) {
-      shaders.push(loadShader(
-          gl, shaderSources[ii], gl[defaultShaderType[ii]], opt_errorCallback))
+      shaders.push(
+        loadShader(
+          gl,
+          shaderSources[ii],
+          gl[defaultShaderType[ii]],
+          opt_errorCallback
+        )
+      )
     }
-    return createProgram(gl, shaders, opt_attribs, opt_locations, opt_errorCallback)
+    return createProgram(
+      gl,
+      shaders,
+      opt_attribs,
+      opt_locations,
+      opt_errorCallback
+    )
   }
 
   /**
@@ -276,10 +341,10 @@
    */
   function resizeCanvasToDisplaySize(canvas, multiplier) {
     multiplier = multiplier || 1
-    const width  = canvas.clientWidth  * multiplier | 0
-    const height = canvas.clientHeight * multiplier | 0
-    if (canvas.width !== width ||  canvas.height !== height) {
-      canvas.width  = width
+    const width = (canvas.clientWidth * multiplier) | 0
+    const height = (canvas.clientHeight * multiplier) | 0
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width
       canvas.height = height
       return true
     }
@@ -292,6 +357,4 @@
     createProgramFromSources: createProgramFromSources,
     resizeCanvasToDisplaySize: resizeCanvasToDisplaySize,
   }
-
-}))
-
+})

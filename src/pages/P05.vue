@@ -10,6 +10,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { W05 },
-  name: 'PageIndex'
+  name: 'PageIndex',
 })
 </script>

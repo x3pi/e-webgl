@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: "Landing",
+  name: 'Landing',
   data() {
     return {}
   },
   methods: {
     init: function () {
-      "use strict"
+      'use strict'
 
       var vertexShaderSource = `#version 300 es
 
@@ -54,8 +54,8 @@ export default {
       }
       `
 
-      var canvas = document.querySelector("#c")
-      var gl = canvas.getContext("webgl2")
+      var canvas = document.querySelector('#c')
+      var gl = canvas.getContext('webgl2')
       if (!gl) {
         return
       }
@@ -69,13 +69,13 @@ export default {
       // look up where the vertex data needs to go.
       var positionAttributeLocation = gl.getAttribLocation(
         program,
-        "a_position"
+        'a_position'
       )
 
       // look up uniform locations
       var resolutionUniformLocation = gl.getUniformLocation(
         program,
-        "u_resolution"
+        'u_resolution'
       )
 
       // Create a buffer and put a single pixel space rectangle in
@@ -155,7 +155,7 @@ export default {
         return shader
       }
 
-      console.log(gl.getShaderInfoLog(shader)); // eslint-disable-line
+      console.log(gl.getShaderInfoLog(shader)) // eslint-disable-line
       gl.deleteShader(shader)
       return undefined
     },
@@ -169,7 +169,7 @@ export default {
         return program
       }
 
-      console.log(gl.getProgramInfoLog(program)); // eslint-disable-line
+      console.log(gl.getProgramInfoLog(program)) // eslint-disable-line
       gl.deleteProgram(program)
       return undefined
     },
@@ -181,7 +181,7 @@ export default {
 </script>
 
 <style scoped>
-@import url("../css/webgl-tutorials.css");
+@import url('../css/webgl-tutorials.css');
 body {
   margin: 0;
 }

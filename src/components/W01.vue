@@ -5,62 +5,70 @@
 </template>
 
 <script>
-
 export default {
-  name: "Landing",
-  data () {
-    return {
-
-    }
+  name: 'Landing',
+  data() {
+    return {}
   },
   methods: {
     init: function () {
-    "use strict"
+      'use strict'
 
-    var vertexShaderSource = `#version 300 es
+      var vertexShaderSource = `#version 300 es
 
-    // an attribute is an input (in) to a vertex shader.
-    // It will receive data from a buffer
-    in vec4 a_position;
+      // an attribute is an input (in) to a vertex shader.
+      // It will receive data from a buffer
+      in vec4 a_position;
 
-    // all shaders have a main function
-    void main() {
+      // all shaders have a main function
+      void main() {
 
-      // gl_Position is a special variable a vertex shader
-      // is responsible for setting
-      gl_Position = a_position;
-    }
+        // gl_Position is a special variable a vertex shader
+        // is responsible for setting
+        gl_Position = a_position;
+      }
     `
 
-    var fragmentShaderSource = `#version 300 es
+      var fragmentShaderSource = `#version 300 es
 
-    // fragment shaders don't have a default precision so we need
-    // to pick one. highp is a good default. It means "high precision"
-    precision highp float;
+      // fragment shaders don't have a default precision so we need
+      // to pick one. highp is a good default. It means "high precision"
+      precision highp float;
 
-    // we need to declare an output for the fragment shader
-    out vec4 outColor;
+      // we need to declare an output for the fragment shader
+      out vec4 outColor;
 
-    void main() {
-      // Just set the output to a constant redish-purple
-      outColor = vec4(1, 0, 0.5, 1);
-    }
-    `
-      var canvas = document.querySelector("#c")
-      var gl = canvas.getContext("webgl2")
+      void main() {
+        // Just set the output to a constant redish-purple
+        outColor = vec4(1, 0, 0.5, 1);
+      }
+      `
+      var canvas = document.querySelector('#c')
+      var gl = canvas.getContext('webgl2')
       if (!gl) {
         return
       }
 
       // create GLSL shaders, upload the GLSL source, compile the shaders
-      var vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
-      var fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
+      var vertexShader = this.createShader(
+        gl,
+        gl.VERTEX_SHADER,
+        vertexShaderSource
+      )
+      var fragmentShader = this.createShader(
+        gl,
+        gl.FRAGMENT_SHADER,
+        fragmentShaderSource
+      )
 
       // Link the two shaders into a program
       var program = this.createProgram(gl, vertexShader, fragmentShader)
 
       // look up where the vertex data needs to go.
-      var positionAttributeLocation = gl.getAttribLocation(program, "a_position")
+      var positionAttributeLocation = gl.getAttribLocation(
+        program,
+        'a_position'
+      )
 
       // Create a buffer and put three 2d clip space points in it
       var positionBuffer = gl.createBuffer()
@@ -68,12 +76,12 @@ export default {
       // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
 
-      var positions = [
-        -1, 0,
-        0, 0.5,
-        0.7, 0,
-      ]
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+      var positions = [-1, 0, 0, 0.5, 0.7, 0]
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(positions),
+        gl.STATIC_DRAW
+      )
 
       // Create a vertex array object (attribute state)
       var vao = gl.createVertexArray()
@@ -85,13 +93,19 @@ export default {
       gl.enableVertexAttribArray(positionAttributeLocation)
 
       // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-      var size = 2          // 2 components per iteration
-      var type = gl.FLOAT   // the data is 32bit floats
+      var size = 2 // 2 components per iteration
+      var type = gl.FLOAT // the data is 32bit floats
       var normalize = false // don't normalize the data
-      var stride = 0        // 0 = move forward size * sizeof(type) each iteration to get the next position
-      var offset = 0        // start at the beginning of the buffer
+      var stride = 0 // 0 = move forward size * sizeof(type) each iteration to get the next position
+      var offset = 0 // start at the beginning of the buffer
       gl.vertexAttribPointer(
-          positionAttributeLocation, size, type, normalize, stride, offset)
+        positionAttributeLocation,
+        size,
+        type,
+        normalize,
+        stride,
+        offset
+      )
 
       webglUtils.resizeCanvasToDisplaySize(gl.canvas)
 
@@ -114,7 +128,7 @@ export default {
       var count = 3
       gl.drawArrays(primitiveType, offset, count)
     },
-    createShader: function (gl, type, source){
+    createShader: function (gl, type, source) {
       var shader = gl.createShader(type)
       gl.shaderSource(shader, source)
       gl.compileShader(shader)
@@ -122,7 +136,7 @@ export default {
       if (success) {
         return shader
       }
-      console.log(gl.getShaderInfoLog(shader));  // eslint-disable-line
+      console.log(gl.getShaderInfoLog(shader))
       gl.deleteShader(shader)
       return undefined
     },
@@ -135,19 +149,19 @@ export default {
       if (success) {
         return program
       }
-      console.log(gl.getProgramInfoLog(program));  // eslint-disable-line
+      console.log(gl.getProgramInfoLog(program))
       gl.deleteProgram(program)
       return undefined
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.init()
-  }
+  },
 }
 </script>
 
 <style scoped>
-@import url("../css/webgl-tutorials.css");
+@import url('../css/webgl-tutorials.css');
 body {
   margin: 0;
 }
