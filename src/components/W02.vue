@@ -1,6 +1,6 @@
 <template>
-  <div id="canva">
-    <canvas id="canvas"></canvas>
+  <div class="viewer">
+    <canvas id="canvasView"></canvas>
     <div id="uiContainer">
       <div id="ui"></div>
     </div>
@@ -97,7 +97,7 @@ export default {
     render: function (image) {
       // Get A WebGL context
       /** @type {HTMLCanvasElement} */
-      var canvas = document.querySelector('#canvas')
+      var canvas = document.querySelector('#canvasView')
       var gl = canvas.getContext('webgl2')
       if (!gl) {
         return

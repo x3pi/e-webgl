@@ -1,6 +1,6 @@
 <template>
-  <div id="canva">
-    <canvas id="c"></canvas>
+  <div class="viewer">
+    <canvas id="canvasView"></canvas>
   </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
         outColor = vec4(1, 0, 0.5, 1);
       }
       `
-      var canvas = document.querySelector('#c')
+      var canvas = document.querySelector('#canvasView')
       var gl = canvas.getContext('webgl2')
       if (!gl) {
         return

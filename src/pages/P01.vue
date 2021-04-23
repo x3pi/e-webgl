@@ -1,7 +1,7 @@
 <template>
-  <q-page class="flex flex-center">
+  <div class="">
     <w01></w01>
-  </q-page>
+  </div>
 </template>
 
 <script>
@@ -10,6 +10,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { W01 },
-  name: 'PageIndex'
+  name: 'PageIndex',
 })
 </script>
