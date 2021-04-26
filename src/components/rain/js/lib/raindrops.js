@@ -70,13 +70,20 @@ Raindrops.prototype={
   options:null,
 
   init(){
+    //
     this.canvas = createCanvas(this.width,this.height)
     this.ctx = this.canvas.getContext('2d')
 
     this.droplets = createCanvas(this.width*this.dropletsPixelDensity,this.height*this.dropletsPixelDensity)
     this.dropletsCtx = this.droplets.getContext('2d')
     var testCavas = document.getElementById("testCanvas")
+    var para = document.createElement("P")
+    para.innerText = "this.canvas init"
+    testCavas.appendChild(para)
     testCavas.appendChild(this.canvas)
+    var para2 = document.createElement("P")
+    para2.innerText = "this.droplets init"
+    testCavas.appendChild(para2)
     testCavas.appendChild(this.droplets)
 
     this.drops=[]
@@ -107,11 +114,17 @@ Raindrops.prototype={
     let dropBuffer=createCanvas(dropSize,dropSize)
     let dropBufferCtx=dropBuffer.getContext('2d')
     var testCavas = document.getElementById("testCanvas")
+    var para = document.createElement("P")
+    para.innerText = "dropBuffer"
+    testCavas.appendChild(para)
     testCavas.appendChild(dropBuffer)
     this.dropsGfx=Array.apply(null,Array(255))
       .map((cur,i)=>{
         let drop=createCanvas(dropSize,dropSize)
         var testCavas = document.getElementById("testCanvas")
+        var para = document.createElement("P")
+        para.innerText = "this.canvas " + i
+        testCavas.appendChild(para)
         testCavas.appendChild(drop)
         let dropCtx=drop.getContext('2d')
 
@@ -138,6 +151,9 @@ Raindrops.prototype={
     // create circle that will be used as a brush to remove droplets
     this.clearDropletsGfx=createCanvas(128,128)
     var testCavas = document.getElementById("testCanvas")
+    var para = document.createElement("P")
+    para.innerText = "this.clearDropletsGfx"
+    testCavas.appendChild(para)
     testCavas.appendChild(this.clearDropletsGfx)
     let clearDropletsCtx=this.clearDropletsGfx.getContext("2d")
     clearDropletsCtx.fillStyle="#000"
