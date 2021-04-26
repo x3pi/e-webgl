@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import W06 from '../components/W06'
+import W06 from '../components/rain/index'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

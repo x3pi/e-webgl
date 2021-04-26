@@ -65,7 +65,7 @@ export default defineComponent({
   },
   data() {
     return {
-      linkSelect: null,
+      linkSelect: 'p01',
     }
   },
   watch: {},
