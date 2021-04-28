@@ -1,11 +1,6 @@
 <template>
   <div class="viewer">
-    <canvas
-      width="1"
-      height="1"
-      id="container"
-      style="position: absolute"
-    ></canvas>
+    <canvas width="1" height="1" id="container" style=""></canvas>
     <div id="testCanvas"></div>
   </div>
 </template>
@@ -17,6 +12,7 @@ import loadImages from './js/lib/image-loader'
 import createCanvas from './js/lib/create-canvas'
 let textureRainFg,
   textureRainBg,
+  img1,
   textureStormLightningFg,
   textureStormLightningBg,
   textureFalloutFg,
@@ -28,7 +24,7 @@ let textureRainFg,
   dropColor,
   dropAlpha
 
-let textureFg, textureFgCtx, textureBg, textureBgCtx
+let textureFg, textureFgCtx, textureBg, textureBgCtx, img1CV, img1Ctx
 
 let textureBgSize = {
   width: 384,
@@ -50,21 +46,38 @@ export default {
     init: function () {
       // Tạo size canvas
       canvas = document.querySelector('#container')
+      let size = 4
 
       let dpi = window.devicePixelRatio
 
-      canvas.width = (window.innerWidth / 4) * dpi
-      canvas.height = (window.innerHeight / 4) * dpi
-      canvas.style.width = window.innerWidth / 4 + 'px'
-      canvas.style.height = window.innerHeight / 4 + 'px'
+      canvas.width = (window.innerWidth / size) * dpi
+      canvas.height = (window.innerHeight / size) * dpi
+      canvas.style.width = window.innerWidth / size + 'px'
+      canvas.style.height = window.innerHeight / size + 'px'
 
       // Tạo hai canvas chứa hình ảnh
       textureFg = createCanvas(textureFgSize.width, textureFgSize.height)
       textureFgCtx = textureFg.getContext('2d')
       textureBg = createCanvas(textureBgSize.width, textureBgSize.height)
       textureBgCtx = textureBg.getContext('2d')
+      img1CV = createCanvas(textureBgSize.width, textureBgSize.height)
+      img1Ctx = img1CV.getContext('2d')
 
-      this.generateTextures(textureRainFg, textureRainBg)
+      var testCavas = document.getElementById('testCanvas')
+      var para = document.createElement('P')
+      para.innerText = 'textureFg'
+      testCavas.appendChild(para)
+      testCavas.appendChild(textureFg)
+      var para2 = document.createElement('P')
+      para2.innerText = 'textureBg'
+      testCavas.appendChild(para2)
+      testCavas.appendChild(textureBg)
+      var para3 = document.createElement('P')
+      para3.innerText = 'img1'
+      testCavas.appendChild(para3)
+      testCavas.appendChild(img1CV)
+
+      this.generateTextures(textureRainFg, textureRainBg, img1)
 
       // Tạo new Raindrops
       raindrops = new Raindrops(
@@ -82,23 +95,17 @@ export default {
       )
 
       // Tạo nên RainRenderer
-      renderer = new RainRenderer(
-        canvas,
-        raindrops.canvas,
-        textureFg,
-        textureBg,
-        null,
-        {
-          brightness: 1.04,
-          alphaMultiply: 6,
-          alphaSubtract: 3,
-          // minRefraction:256,
-          // maxRefraction:512
-        }
-      )
+      renderer = new RainRenderer(canvas, img1CV, textureFg, textureBg, null, {
+        brightness: 1.04,
+        alphaMultiply: 6,
+        alphaSubtract: 3,
+        // minRefraction:256,
+        // maxRefraction:512
+      })
     },
     loadTextures: function () {
       loadImages([
+        { name: 'img1', src: 'rain/img/img1.png' },
         { name: 'dropAlpha', src: 'rain/img/drop-alpha.png' },
         { name: 'dropColor', src: 'rain/img/drop-color.png' },
 
@@ -141,6 +148,7 @@ export default {
           src: './rain/img/weather/texture-drizzle-bg.png',
         },
       ]).then((images) => {
+        img1 = images.img1.img
         textureRainFg = images.textureRainFg.img
         textureRainBg = images.textureRainBg.img
 
@@ -162,7 +170,7 @@ export default {
         this.init()
       })
     },
-    generateTextures: function (fg, bg, alpha = 1) {
+    generateTextures: function (fg, bg, img, alpha = 1) {
       textureFgCtx.globalAlpha = alpha
       textureFgCtx.drawImage(
         fg,
@@ -180,6 +188,9 @@ export default {
         textureBgSize.width,
         textureBgSize.height
       )
+
+      img1Ctx.globalAlpha = alpha
+      img1Ctx.drawImage(img, 0, 0, textureBgSize.width, textureBgSize.height)
     },
   },
   mounted() {

@@ -50,6 +50,7 @@ function Raindrops(width,height,scale,dropAlpha,dropColor,options={}){
   this.init()
 }
 Raindrops.prototype={
+  ii: 0,
   dropColor:null,
   dropAlpha:null,
   canvas:null,
@@ -161,6 +162,8 @@ Raindrops.prototype={
     clearDropletsCtx.arc(64,64,64,0,Math.PI*2)
     clearDropletsCtx.fill()
   },
+
+  
   drawDrop(ctx,drop){
     if(this.dropsGfx.length>0){
       let x=drop.x
@@ -253,9 +256,9 @@ Raindrops.prototype={
     if(this.textureCleaningIterations>0){
       this.textureCleaningIterations-=1*timeScale
       this.dropletsCtx.globalCompositeOperation="destination-out"
-      this.dropletsCtx.fillStyle="rgba(0,0,0,"+(0.05*timeScale)+")"
+      this.dropletsCtx.fillStyle="rgba(0,0,0,"+(1)+")"
       this.dropletsCtx.fillRect(0,0,
-        this.width*this.dropletsPixelDensity,this.height*this.dropletsPixelDensity)
+      this.width*this.dropletsPixelDensity,this.height*this.dropletsPixelDensity)
     }
     if(this.options.raining){
       this.dropletsCounter+=this.options.dropletsRate*timeScale*this.areaMultiplier
@@ -394,6 +397,7 @@ Raindrops.prototype={
   },
   update(){
     this.clearCanvas()
+    this.ii ++
 
     let now=Date.now()
     if(this.lastRender==null) this.lastRender=now
@@ -405,7 +409,7 @@ Raindrops.prototype={
 
     this.updateDrops(timeScale)
 
-    requestAnimationFrame(this.update.bind(this))
+    if(this.ii<40) requestAnimationFrame(this.update.bind(this))
   }
 }
 
